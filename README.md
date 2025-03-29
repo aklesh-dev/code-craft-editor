@@ -13,3 +13,7 @@ WebHooks
 > **Clerk ==> WebHooks ==> Convex**
 - Clerk sends a webhook to Convex when a user signs up.
 - Convex sends a webhook to Clerk when a new user is created.
+
+For the editor
+- used monaco editor for the code editor.
+- used library  `@monaco-editor/react` for integrating the editor with react.
