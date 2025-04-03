@@ -7,13 +7,13 @@ import Image from "next/image";
 import { RotateCcwIcon, ShareIcon, TypeIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Editor } from "@monaco-editor/react";
-// //import { useClerk } from "@clerk/nextjs";
-// //import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
-// //import useMounted from "@/hooks/useMounted";
+import { useClerk } from "@clerk/nextjs";
+import { EditorPanelSkeleton } from "./EditorPanelSkeleton";
+import useMounted from "@/hooks/useMounted";
 
 function EditorPanel() {
-  // //const clerk = useClerk();
-  // //const mounted = useMounted;
+  const clerk = useClerk();
+  const mounted = useMounted;
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const { language, editor, fontSize, theme, setFontSize, setEditor } = useCodeEditorStore();
 
@@ -44,7 +44,7 @@ function EditorPanel() {
     localStorage.setItem("editor-font-size", size.toString());
   };
 
-  // //if(!mounted) return null;
+  if(!mounted) return null;
 
   return (
     <section className="relative">
@@ -113,7 +113,7 @@ function EditorPanel() {
 
         {/* Editor  */}
         <div className="relative group rounded-xl overflow-hidden ring-1 ring-white/[0.05]">
-          {/*//// {clerk.loaded && ( */}
+          {clerk.loaded && ( 
             <Editor
               height="600px"
               language={LANGUAGE_CONFIG[language].monacoLanguage}
@@ -143,9 +143,9 @@ function EditorPanel() {
                 },
               }}
             />
-          {/*// //)} */}
+          )} 
 
-          {/*//// {!clerk.loaded && <EditorPanelSkeleton />} */}
+          {!clerk.loaded && <EditorPanelSkeleton />} 
         </div>
         
       </div>
