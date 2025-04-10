@@ -12,12 +12,35 @@ import HeaderProfileBtn from "./HeaderProfileBtn";
 async function Header() {
   const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
   const user = await currentUser();
+  
+  if (!user) {
+    console.warn("No Clerk user found - user not authenticated");
+    // return (
+    //   <section className="relative z-10">
+    //     <div className="flex items-center justify-center bg-[#0a0a0f]/80 backdrop-blur-xl p-6 mb-4 rounded-lg">
+    //       <div>Please sign in to access all features</div>
+    //       <HeaderProfileBtn />
+    //     </div>
+    //   </section>
+    // );
+  }
 
-  const convexUser = await convex.query(api.users.getUser, {
-    userId: user?.id || "",
-  });
+  let convexUser = null;
+  try {
+    convexUser = await convex.query(api.users.getUser, {
+      userId: user?.id || "",
+    });
+  } catch (error) {
+    console.error("Error fetching Convex user data:", error);
+  }
 
-  // //console.log({convexUser}); // uncomment to see the user object
+  // const convexUser = await convex.query(api.users.getUser, {
+  //   userId: user?.id || "",
+  // });
+
+  if (!convexUser) {
+    console.warn("No Convex user record found for authenticated user");
+  }
 
   return (
     <section className="relative z-10">
